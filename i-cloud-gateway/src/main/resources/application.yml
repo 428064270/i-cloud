@@ -1,0 +1,50 @@
+server:
+  port: 7004
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+    instance:
+      prefer-ip-address: true
+spring:
+  application:
+    name: i-cloud-gateway
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+      shutdown-timeout: 100
+zuul:
+  prefix: /api    #添加路由前缀
+  routes:
+    i-cloud-security-auth: /i-cloud-security-auth/**
+    i-cloud-rbac: /i-cloud-rbac/**
+  host:
+    max-per-route-connections: 60000
+    socket-timeout-millis: 10000
+    connect-timeout-millis: 10000
+  add-host-header: true
+  sensitive-headers:
+ribbon:
+  ReadTimeout: 600000  # 单位毫秒数
+  SocketTimeout: 600000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+#TokenFilter白名单URL
+filter:
+  token:
+    white-uris: "/api/i-cloud-security-auth/**,/api/i-cloud-rbac/user/info,**option**"

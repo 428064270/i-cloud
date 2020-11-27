@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icloud.rbac.mapper.RbacUserMapper">
+
+    <select id="selectListByName" parameterType="java.lang.String" resultMap="selectListByNameMap">
+        SELECT
+         `t_view_rbac_user`.`id`,
+         `t_view_rbac_user`.`name` AS `name`,
+         `t_view_rbac_user`.`username`,
+         `t_view_rbac_user`.`option_values_json`,
+         `t_view_rbac_role`.`name` AS role_name
+        FROM `t_view_rbac_user`
+        LEFT JOIN `t_view_rbac_user_role` ON `t_view_rbac_user_role`.`user_id` = `t_view_rbac_user`.`id`
+        LEFT JOIN `t_view_rbac_role` ON `t_view_rbac_role`.`id` = `t_view_rbac_user_role`.`role_id`
+        WHERE  `t_view_rbac_user`.`name` LIKE CONCAT('%',#{name},'%')
+    </select>
+
+    <resultMap id="selectListByNameMap" type="java.util.Map">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="username" column="username"/>
+        <result property="optionValuesJson" column="option_values_json"/>
+        <collection property="roleList" ofType="java.lang.String" javaType="java.util.List">
+            <result column="role_name"/>
+        </collection>
+    </resultMap>
+
+</mapper>

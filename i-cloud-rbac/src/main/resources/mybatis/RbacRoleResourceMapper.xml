@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icloud.rbac.mapper.RbacRoleResourceMapper">
+
+    <insert id="insertBatch">
+        INSERT INTO t_view_rbac_role_resource VALUES
+        <foreach collection="resourceIds" item="resourceId" separator=",">
+            (#{roleId},#{resourceId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteBatchByRoleId" parameterType="java.lang.String">
+        DELETE FROM t_view_rbac_role_resource WHERE role_id = #{roleId}
+    </delete>
+
+</mapper>
