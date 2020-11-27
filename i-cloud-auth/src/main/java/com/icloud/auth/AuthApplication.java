@@ -10,8 +10,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * @author 42806
  */
-@SpringBootApplication(scanBasePackages = {"com.icloud.common.components", "com.icloud.security.auth"})
-@MapperScan("com.icloud.security.auth.mapper")
+@SpringBootApplication(scanBasePackages = {"com.icloud.common.components", "com.icloud.auth"})
+@MapperScan("com.icloud.auth.mapper")
 @EnableEurekaClient
 @EnableFeignClients(clients = {FeignRbacProxy.class})
 public class AuthApplication {

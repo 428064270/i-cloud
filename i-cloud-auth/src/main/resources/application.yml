@@ -9,7 +9,7 @@ eureka:
       instance-id: i-cloud-auth
 spring:
   application:
-    name: i-cloud-security-auth
+    name: i-cloud-auth
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #url: jdbc:mysql://10.19.234.124:3307/security?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
