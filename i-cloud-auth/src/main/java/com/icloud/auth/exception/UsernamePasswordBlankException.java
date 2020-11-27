@@ -1,4 +1,4 @@
-package com.icloud.security.auth.exception;
+package com.icloud.auth.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

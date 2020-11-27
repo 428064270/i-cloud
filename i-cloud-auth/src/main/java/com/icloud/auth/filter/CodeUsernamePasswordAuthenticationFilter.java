@@ -1,4 +1,4 @@
-package com.icloud.security.auth.filter;
+package com.icloud.auth.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.icloud.common.components.common.RedisComponent;
@@ -8,9 +8,9 @@ import com.icloud.common.feigns.FeignRbacProxy;
 import com.icloud.common.utils.auth.JwtUtil;
 import com.icloud.common.utils.auth.UrlMatcher;
 import com.icloud.common.utils.http.HttpResponse;
-import com.icloud.security.auth.exception.CodeAuthenticationException;
-import com.icloud.security.auth.exception.UsernamePasswordBlankException;
-import com.icloud.security.auth.service.RbacUserService;
+import com.icloud.auth.exception.CodeAuthenticationException;
+import com.icloud.auth.exception.UsernamePasswordBlankException;
+import com.icloud.auth.service.RbacUserService;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;

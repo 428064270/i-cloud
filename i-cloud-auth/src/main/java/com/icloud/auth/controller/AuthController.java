@@ -1,4 +1,4 @@
-package com.icloud.security.auth.controller;
+package com.icloud.auth.controller;
 
 import com.icloud.common.components.annotation.Permission;
 import com.icloud.common.components.base.BaseController;

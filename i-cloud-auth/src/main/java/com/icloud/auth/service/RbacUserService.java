@@ -1,4 +1,4 @@
-package com.icloud.security.auth.service;
+package com.icloud.auth.service;
 
 import com.icloud.common.entitys.rbac.RbacUser;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.icloud.security.auth.mapper;
+package com.icloud.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.icloud.common.entitys.rbac.RbacUser;

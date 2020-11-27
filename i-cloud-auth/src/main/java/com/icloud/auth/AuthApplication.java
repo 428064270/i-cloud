@@ -1,4 +1,4 @@
-package com.icloud.security.auth;
+package com.icloud.auth;
 
 import com.icloud.common.feigns.FeignRbacProxy;
 import org.mybatis.spring.annotation.MapperScan;
@@ -14,10 +14,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @MapperScan("com.icloud.security.auth.mapper")
 @EnableEurekaClient
 @EnableFeignClients(clients = {FeignRbacProxy.class})
-public class SecurityAuthApplication {
+public class AuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SecurityAuthApplication.class, args);
+        SpringApplication.run(AuthApplication.class, args);
     }
 
 }

@@ -1,9 +1,9 @@
-package com.icloud.security.auth.config;
+package com.icloud.auth.config;
 
+import com.icloud.auth.filter.CodeUsernamePasswordAuthenticationFilter;
 import com.icloud.common.components.common.RedisComponent;
 import com.icloud.common.feigns.FeignRbacProxy;
-import com.icloud.security.auth.filter.CodeUsernamePasswordAuthenticationFilter;
-import com.icloud.security.auth.service.RbacUserService;
+import com.icloud.auth.service.RbacUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

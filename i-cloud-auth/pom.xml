@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.icloud.security.auth</groupId>
-    <artifactId>i-cloud-security-auth</artifactId>
+    <groupId>com.icloud.auth</groupId>
+    <artifactId>i-cloud-auth</artifactId>
 
     <dependencies>
         <dependency>
