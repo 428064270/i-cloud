@@ -67,16 +67,28 @@ public class ResourceFilter extends ZuulFilter {
         String token = request.getHeader("X-Token");
         RbacUser user = (RbacUser) this.redis.get(token);
         //从Redis中获取出URL匹配工具
-        UrlMatcher matcher = (UrlMatcher) this.redis.get(user.getId() + RedisKeySuffixStorage.REDIS_AUTH_MATCHER_KEY);
-        if (!matcher.matches(uri)) {
-            requestContext.setSendZuulResponse(false);
-            requestContext.setResponseStatusCode(200);
-            requestContext.setResponseBody(JSON.toJSONString(HttpResponse.error("权限不足")));
-            requestContext.getResponse().setContentType("application/json; charset=utf-8");
-            return null;
+        try {
+            UrlMatcher matcher = (UrlMatcher) this.redis.get(user.getId() + RedisKeySuffixStorage.REDIS_AUTH_MATCHER_KEY);
+            if (!matcher.matches(uri)) {
+                this.response(requestContext);
+                return null;
+            }
+        } catch (Exception e) {
+            this.response(requestContext);
         }
         return null;
     }
 
+    /**
+     * 响应信息
+     *
+     * @param requestContext
+     */
+    private void response(RequestContext requestContext) {
+        requestContext.setSendZuulResponse(false);
+        requestContext.setResponseStatusCode(200);
+        requestContext.setResponseBody(JSON.toJSONString(HttpResponse.error("权限不足")));
+        requestContext.getResponse().setContentType("application/json; charset=utf-8");
+    }
 
 }
