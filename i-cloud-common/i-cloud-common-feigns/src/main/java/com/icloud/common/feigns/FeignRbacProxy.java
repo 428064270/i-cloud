@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author 42806
  */
-@FeignClient(value = "i-cloud-rbac", url = "http://localhost:7005")
+@FeignClient(value = "i-cloud-rbac")
 public interface FeignRbacProxy {
 
     /**

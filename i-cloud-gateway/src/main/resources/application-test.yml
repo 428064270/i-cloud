@@ -1,0 +1,6 @@
+eureka:
+  defaultZone: http://124.71.128.218:7001/eureka
+redis:
+  host: 124.71.128.218
+  port: 6379
+  password: ITwh@306

@@ -3,16 +3,19 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:7001/eureka
-    instance:
-      prefer-ip-address: true
+      defaultZone: ${eureka.defaultZone}
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 spring:
   application:
     name: i-cloud-gateway
+  profiles:
+    active: dev
   redis:
     database: 0
-    host: localhost
-    port: 6379
+    host: ${redis.host}
+    port: ${redis.port}
     lettuce:
       pool:
         max-active: 8
@@ -20,10 +23,11 @@ spring:
         max-idle: 8
         min-idle: 0
       shutdown-timeout: 100
+    password: ${redis.password}
 zuul:
   prefix: /api    #添加路由前缀
   routes:
-    i-cloud-security-auth: /i-cloud-security-auth/**
+    i-cloud-auth: /i-cloud-auth/**
     i-cloud-rbac: /i-cloud-rbac/**
   host:
     max-per-route-connections: 60000
@@ -47,4 +51,4 @@ management:
 #TokenFilter白名单URL
 filter:
   token:
-    white-uris: "/api/i-cloud-security-auth/**,/api/i-cloud-rbac/user/info,**option**"
+    white-uris: "/api/i-cloud-auth/**,/api/i-cloud-rbac/user/info,**option**"
