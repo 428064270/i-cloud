@@ -1,6 +1,5 @@
 package com.icloud.rbac.service;
 
-import com.icloud.common.entitys.common.PageResult;
 import com.icloud.common.entitys.params.QueryPageParam;
 import com.icloud.common.entitys.rbac.RbacResource;
 
@@ -38,12 +37,6 @@ public interface RbacResourceService {
      */
     boolean updateById(RbacResource resource);
 
-    /**
-     * 分页查询资源
-     *
-     * @return 分页后的资源信息
-     */
-    PageResult<RbacResource> findListPage(QueryPageParam param);
 
     /**
      * 查询菜单选择框数据
@@ -57,7 +50,7 @@ public interface RbacResourceService {
      *
      * @return
      */
-    List<Map<String, Object>> selectAllOptions();
+    List<RbacResource> selectAllOptions();
 
     /**
      * 按照名称一对多查询资源

@@ -46,6 +46,7 @@ public class RbacRoleServiceImpl implements RbacRoleService {
             this.rbacRoleResourceMapper.insertBatch(roleId, resourceIds);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }

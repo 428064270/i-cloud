@@ -14,20 +14,6 @@ import java.util.Map;
 public interface RbacResourceMapper extends BaseMapper<RbacResource> {
 
     /**
-     * 查询多级选择框数据
-     *
-     * @return
-     */
-    List<Map<String, Object>> selectMenuOptions();
-
-    /**
-     * 查询全部菜单选择框数据
-     *
-     * @return
-     */
-    List<Map<String, Object>> selectAllOptions();
-
-    /**
      * 按照名称一对多查询资源
      *
      * @param name

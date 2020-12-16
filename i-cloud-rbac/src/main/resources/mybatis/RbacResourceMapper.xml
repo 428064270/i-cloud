@@ -2,21 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.icloud.rbac.mapper.RbacResourceMapper">
 
-    <select id="selectMenuOptions" resultMap="selectMenuOptionsMap">
-        SELECT `one`.`id` AS o_id, `one`.`name` AS o_name, two.`id` AS t_id, two.`name` AS t_name
-        FROM `t_view_rbac_resource` `one`
-        LEFT JOIN `t_view_rbac_resource` two ON two.`parent_id` = `one`.`id` AND two.`type` = 0
-        WHERE one.`type` = 0 AND one.`parent_id` = '0'
-    </select>
-
-    <select id="selectAllOptions" resultMap="selectAllOptionsMap">
-        SELECT `one`.`id` AS o_id, `one`.`name` AS o_name, two.`id` AS t_id, two.`name` AS t_name,three.`id` AS th_id,three.`name` AS th_name
-        FROM `t_view_rbac_resource` `one`
-        LEFT JOIN `t_view_rbac_resource` two ON two.`parent_id` = `one`.`id` AND two.`type` = 0
-        LEFT JOIN `t_view_rbac_resource` three ON three.`parent_id` = `two`.`id` AND three.`type` = 1
-        WHERE one.`type` = 0 AND one.`parent_id` = '0'
-    </select>
-
     <select id="selectToManyBatchByName" resultMap="selectToManyBatchByNameMap" parameterType="java.lang.String">
         <include refid="OneToManySql"/>
         AND (`one`.`name` LIKE concat('%',#{name},'%') OR `two`.`name` LIKE concat('%',#{name},'%') OR `three`.`name`
@@ -24,30 +9,34 @@
     </select>
 
     <select id="selectApiPathBatchByUserId" resultType="java.lang.String" parameterType="java.lang.String">
-        SELECT `t_view_rbac_resource`.path FROM `t_view_rbac_resource`
-        INNER JOIN `t_view_rbac_role_resource` ON `t_view_rbac_role_resource`.`resource_id` = `t_view_rbac_resource`.`id`
-        INNER JOIN `t_view_rbac_user_role` ON `t_view_rbac_user_role`.`role_id` = `t_view_rbac_role_resource`.`role_id`
-        WHERE `t_view_rbac_user_role`.`user_id` = #{userId}  AND `t_view_rbac_resource`.`type` =1
-        GROUP  BY `t_view_rbac_resource`.`id`
+        SELECT `t_view_rbac_resource`.path
+        FROM `t_view_rbac_resource`
+                 INNER JOIN `t_view_rbac_role_resource`
+                            ON `t_view_rbac_role_resource`.`resource_id` = `t_view_rbac_resource`.`id`
+                 INNER JOIN `t_view_rbac_user_role`
+                            ON `t_view_rbac_user_role`.`role_id` = `t_view_rbac_role_resource`.`role_id`
+        WHERE `t_view_rbac_user_role`.`user_id` = #{userId}
+          AND `t_view_rbac_resource`.`type` = 1
+        GROUP BY `t_view_rbac_resource`.`id`
     </select>
 
     <select id="selectMenuBatchByUserId" resultMap="selectMenuBatchByUserIdMap" parameterType="java.lang.String">
         SELECT
-            `one`.`name` AS o_name,
-            `one`.`path` AS o_path,
-            `one`.`display` AS o_display,
-            `one`.`icon` AS o_icon,
-            `one`.`component_path` AS o_component_path,
-            `two`.`name` AS t_name,
-            `two`.`path` AS t_path,
-            `two`.`display` AS t_display,
-            `two`.`icon` AS t_icon,
-            `two`.`component_path` AS t_component_path
+        `one`.`name` AS o_name,
+        `one`.`path` AS o_path,
+        `one`.`display` AS o_display,
+        `one`.`icon` AS o_icon,
+        `one`.`component_path` AS o_component_path,
+        `two`.`name` AS t_name,
+        `two`.`path` AS t_path,
+        `two`.`display` AS t_display,
+        `two`.`icon` AS t_icon,
+        `two`.`component_path` AS t_component_path
         FROM(
-            <include refid="selectMenuBatchByUserIdCommonSql"></include>
+        <include refid="selectMenuBatchByUserIdCommonSql"></include>
         ) `one`
         LEFT JOIN (
-            <include refid="selectMenuBatchByUserIdCommonSql"></include>
+        <include refid="selectMenuBatchByUserIdCommonSql"></include>
         ) two ON two.parent_id = `one`.id
         WHERE `one`.parent_id = '0'
         ORDER BY `one`.order,`two`.order
@@ -55,81 +44,62 @@
 
 
     <sql id="selectMenuBatchByUserIdCommonSql">
-        SELECT
-            `t_view_rbac_resource`.`id`,
-            `t_view_rbac_resource`.name,
-            `t_view_rbac_resource`.`path`,
-            `t_view_rbac_resource`.`display`,
-            `t_view_rbac_resource`.`icon`,
-            `t_view_rbac_resource`.`component_path`,
-            `t_view_rbac_resource`.`parent_id`,
-            `t_view_rbac_resource`.`order`
+        SELECT `t_view_rbac_resource`.`id`,
+               `t_view_rbac_resource`.name,
+               `t_view_rbac_resource`.`path`,
+               `t_view_rbac_resource`.`display`,
+               `t_view_rbac_resource`.`icon`,
+               `t_view_rbac_resource`.`component_path`,
+               `t_view_rbac_resource`.`parent_id`,
+               `t_view_rbac_resource`.`order`
         FROM `t_view_rbac_resource`
-        INNER JOIN `t_view_rbac_role_resource` ON `t_view_rbac_role_resource`.`resource_id` = `t_view_rbac_resource`.`id`
-        INNER JOIN `t_view_rbac_user_role` ON `t_view_rbac_user_role`.`role_id` = `t_view_rbac_role_resource`.`role_id`
-        WHERE `t_view_rbac_user_role`.`user_id` = #{userId} AND `t_view_rbac_resource`.`type` = 0
+                 INNER JOIN `t_view_rbac_role_resource`
+                            ON `t_view_rbac_role_resource`.`resource_id` = `t_view_rbac_resource`.`id`
+                 INNER JOIN `t_view_rbac_user_role`
+                            ON `t_view_rbac_user_role`.`role_id` = `t_view_rbac_role_resource`.`role_id`
+        WHERE `t_view_rbac_user_role`.`user_id` = #{userId}
+          AND `t_view_rbac_resource`.`type` = 0
         GROUP BY `t_view_rbac_resource`.`id`
     </sql>
 
     <sql id="OneToManySql">
-        SELECT
-            `one`.`id` AS o_id,
-            `one`.`name` AS o_name,
-            `one`.`type` AS o_type,
-            `one`.`path` AS o_path,
-            `one`.`parent_id` AS o_parent_id,
-            `one`.`display` AS o_display,
-            `one`.`order` AS o_order,
-            `one`.`icon` AS o_icon,
-            `one`.`component_path` AS o_component_path,
-            `one`.`option_values_json` AS o_option_values_json,
-            `two`.`id` AS t_id,
-            `two`.`name` AS t_name,
-            `two`.`type` AS t_type,
-            `two`.`path` AS t_path,
-            `two`.`parent_id` AS t_parent_id,
-            `two`.`display` AS t_display,
-            `two`.`order` AS t_order,
-            `two`.`icon` AS t_icon,
-            `two`.`component_path` AS t_component_path,
-            `two`.`option_values_json` AS t_option_values_json,
-            `three`.`id` AS th_id,
-            `three`.`name` AS th_name,
-            `three`.`type` AS th_type,
-            `three`.`path` AS th_path,
-            `three`.`parent_id` AS th_parenth_id,
-            `three`.`display` AS th_display,
-            `three`.`order` AS th_order,
-            `three`.`icon` AS th_icon,
-            `three`.`component_path` AS th_componenth_path,
-            `three`.`option_values_json` AS th_option_values_json
+        SELECT `one`.`id`                   AS o_id,
+               `one`.`name`                 AS o_name,
+               `one`.`type`                 AS o_type,
+               `one`.`path`                 AS o_path,
+               `one`.`parent_id`            AS o_parent_id,
+               `one`.`display`              AS o_display,
+               `one`.`order`                AS o_order,
+               `one`.`icon`                 AS o_icon,
+               `one`.`component_path`       AS o_component_path,
+               `one`.`option_values_json`   AS o_option_values_json,
+               `two`.`id`                   AS t_id,
+               `two`.`name`                 AS t_name,
+               `two`.`type`                 AS t_type,
+               `two`.`path`                 AS t_path,
+               `two`.`parent_id`            AS t_parent_id,
+               `two`.`display`              AS t_display,
+               `two`.`order`                AS t_order,
+               `two`.`icon`                 AS t_icon,
+               `two`.`component_path`       AS t_component_path,
+               `two`.`option_values_json`   AS t_option_values_json,
+               `three`.`id`                 AS th_id,
+               `three`.`name`               AS th_name,
+               `three`.`type`               AS th_type,
+               `three`.`path`               AS th_path,
+               `three`.`parent_id`          AS th_parenth_id,
+               `three`.`display`            AS th_display,
+               `three`.`order`              AS th_order,
+               `three`.`icon`               AS th_icon,
+               `three`.`component_path`     AS th_componenth_path,
+               `three`.`option_values_json` AS th_option_values_json
         FROM `t_view_rbac_resource` AS `one`
-        LEFT JOIN `t_view_rbac_resource` two ON two.`parent_id` = `one`.`id` AND two.`type` = 0 AND two.`parent_id`!= '0'
-        LEFT JOIN `t_view_rbac_resource` three ON three.`parent_id` = `two`.`id` AND three.`type` = 1
-        WHERE one.`parent_id` =  '0'
+                 LEFT JOIN `t_view_rbac_resource` two
+                           ON two.`parent_id` = `one`.`id` AND two.`type` = 0 AND two.`parent_id`!= '0'
+        LEFT JOIN `t_view_rbac_resource` three
+        ON three.`parent_id` = `two`.`id` AND three.`type` = 1
+        WHERE one.`parent_id` = '0'
     </sql>
-
-    <resultMap id="selectMenuOptionsMap" type="java.util.Map">
-        <id property="value" column="o_id"/>
-        <result property="label" column="o_name"/>
-        <collection property="children" ofType="java.util.Map" javaType="java.util.List">
-            <id property="value" column="t_id"/>
-            <result property="label" column="t_name"/>
-        </collection>
-    </resultMap>
-
-    <resultMap id="selectAllOptionsMap" type="java.util.Map">
-        <id property="value" column="o_id"/>
-        <result property="label" column="o_name"/>
-        <collection property="children" ofType="java.util.Map" javaType="java.util.List">
-            <id property="value" column="t_id"/>
-            <result property="label" column="t_name"/>
-            <collection property="children" ofType="java.util.Map" javaType="java.util.List">
-                <id property="value" column="th_id"/>
-                <result property="label" column="th_name"/>
-            </collection>
-        </collection>
-    </resultMap>
 
     <resultMap id="selectToManyBatchByNameMap" type="com.icloud.common.entitys.rbac.RbacResource">
         <id property="id" column="o_id"/>
@@ -181,19 +151,6 @@
             <result property="icon" column="t_icon"/>
             <result property="componentPath" column="t_component_path"/>
         </collection>
-    </resultMap>
-
-    <resultMap id="BaseMap" type="com.icloud.common.entitys.rbac.RbacResource">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="type" column="type"/>
-        <result property="path" column="path"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="display" column="display"/>
-        <result property="order" column="order"/>
-        <result property="icon" column="icon"/>
-        <result property="componentPath" column="component_path"/>
-        <result property="optionValuesJson" column="option_values_json"/>
     </resultMap>
 
 </mapper>

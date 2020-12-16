@@ -1,5 +1,6 @@
 package com.icloud.rbac.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.icloud.common.components.annotation.Permission;
 import com.icloud.common.components.base.BaseController;
 import com.icloud.common.entitys.params.QueryPageParam;
@@ -114,7 +115,7 @@ public class RbacResourceController extends BaseController {
     @GetMapping("/all_options")
     @Permission(description = "全部资源树结构", operation = Permission.Operation.SELECT)
     public HttpResponse allOptions() {
-        List<Map<String, Object>> list = this.rbacResourceService.selectAllOptions();
+        List<RbacResource> list = this.rbacResourceService.selectAllOptions();
         return HttpResponse.success(list);
     }
 
