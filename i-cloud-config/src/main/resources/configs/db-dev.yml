@@ -1,22 +1,9 @@
-server:
-  port: 7002
-eureka:
-  client:
-    service-url:
-      defaultZone: ${eureka.defaultZone}
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 spring:
-  profiles:
-    active: dev
-  application:
-    name: i-cloud-rbac
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${datasource.url}
-    username: ${datasource.username}
-    password: ${datasource.password}
+    url: jdbc:mysql://localhost:3306/i_cloud?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+    username: root
+    password: ITwh@306
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 5
@@ -42,18 +29,6 @@ spring:
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       # 合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
-  redis:
-    database: 0
-    host: ${redis.host}
-    port: ${redis.port}
-    lettuce:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
-      shutdown-timeout: 100
-    password: ${redis.password}
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false

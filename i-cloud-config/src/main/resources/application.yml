@@ -3,13 +3,13 @@ server:
 spring:
   application:
     name: i-cloud-config
+  profiles:
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/428064270/i-cloud-config
-          search-paths: /
-          default-label: main
+        native:
+          search-locations: classpath:/configs
 eureka:
   client:
     service-url:
