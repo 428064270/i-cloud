@@ -17,6 +17,7 @@
         <module>i-cloud-config</module>
     </modules>
 
+    <profile>dev</profile>
 
     <properties>
         <spring.cloud-version>Hoxton.SR8</spring.cloud-version>

@@ -50,11 +50,14 @@ public class AuthController extends BaseController {
     @PostMapping("/logout")
     @Permission(description = "用户登出", operation = Permission.Operation.SELECT)
     public HttpResponse<?> logout(HttpServletRequest request) {
-        //从请求头中获取Token信息
-        String token = request.getHeader("X-Token");
-        //从Redis中删除Token信息使其失效
-        this.redis.del(token);
-        return HttpResponse.success();
+        try {
+            //从请求头中获取Token信息
+            String token = request.getHeader("X-Token");
+            //从Redis中删除Token信息使其失效
+            this.redis.del(token);
+        } finally {
+            return HttpResponse.success();
+        }
     }
 
 }

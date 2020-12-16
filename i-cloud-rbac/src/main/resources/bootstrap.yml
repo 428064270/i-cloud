@@ -1,0 +1,11 @@
+server:
+  port: 7002
+spring:
+  application:
+    name: i-cloud-rbac
+  cloud:
+    config:
+      uri: http://localhost:7005
+      profile: dev
+      label: master
+      name: eureka,db,redis

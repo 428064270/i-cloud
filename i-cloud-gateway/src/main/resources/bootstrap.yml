@@ -1,29 +1,14 @@
 server:
   port: 7004
-eureka:
-  client:
-    service-url:
-      defaultZone: ${eureka.defaultZone}
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 spring:
   application:
     name: i-cloud-gateway
-  profiles:
-    active: dev
-  redis:
-    database: 0
-    host: ${redis.host}
-    port: ${redis.port}
-    lettuce:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
-      shutdown-timeout: 100
-    password: ${redis.password}
+  cloud:
+    config:
+      uri: http://localhost:7005
+      profile: dev
+      label: master
+      name: eureka,redis
 zuul:
   prefix: /api    #添加路由前缀
   routes:
@@ -36,8 +21,8 @@ zuul:
   add-host-header: true
   sensitive-headers:
 ribbon:
-  ReadTimeout: 600000  # 单位毫秒数
-  SocketTimeout: 600000
+  ConnectTimeout: 1000
+  ReadTimeout: 1000
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 1
 management:
