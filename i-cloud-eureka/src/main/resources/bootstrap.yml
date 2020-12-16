@@ -1,11 +1,8 @@
 server:
   port: 7001
-spring:
-  profiles:
-    active: dev
 eureka:
   instance:
-    hostname: ${eureka.hostname}
+    hostname: localhost
   client:
     register-with-eureka: false
     fetch-registry: false
