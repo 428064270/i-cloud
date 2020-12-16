@@ -51,4 +51,4 @@ management:
 #TokenFilter白名单URL
 filter:
   token:
-    white-uris: "/api/i-cloud-auth/**,/api/i-cloud-rbac/user/info,**option**"
+    white-uris: "/api/i-cloud-auth/**,/api/i-cloud-rbac/user/info,**option**,/*/**"
