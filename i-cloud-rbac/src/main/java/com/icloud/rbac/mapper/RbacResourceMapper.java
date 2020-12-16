@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.icloud.common.entitys.rbac.RbacResource;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 系统资源数据访问
@@ -30,11 +29,11 @@ public interface RbacResourceMapper extends BaseMapper<RbacResource> {
     List<String> selectApiPathBatchByUserId(String userId);
 
     /**
-     * 按照用户编号查询用户存在的菜单权限
+     * 按照用户编号查询用户拥有的菜单资源
      *
      * @param userId
      * @return
      */
-    List<Map<String, Object>> selectMenuBatchByUserId(String userId);
+    List<RbacResource> selectMenuListByUserId(String userId);
 
 }

@@ -68,12 +68,13 @@ public interface RbacResourceService {
      */
     List<String> findApiPathBatchByUserId(String userId);
 
+
     /**
-     * 按照用户编号查询用户存在的菜单权限
+     * 按照用户编号查询用户拥有的菜单资源
      *
      * @param userId
      * @return
      */
-    List<Map<String, Object>> findMenuBatchByUserId(String userId);
+    List<RbacResource> findMenuListByUserId(String userId);
 
 }

@@ -20,38 +20,8 @@
         GROUP BY `t_view_rbac_resource`.`id`
     </select>
 
-    <select id="selectMenuBatchByUserId" resultMap="selectMenuBatchByUserIdMap" parameterType="java.lang.String">
-        SELECT
-        `one`.`name` AS o_name,
-        `one`.`path` AS o_path,
-        `one`.`display` AS o_display,
-        `one`.`icon` AS o_icon,
-        `one`.`component_path` AS o_component_path,
-        `two`.`name` AS t_name,
-        `two`.`path` AS t_path,
-        `two`.`display` AS t_display,
-        `two`.`icon` AS t_icon,
-        `two`.`component_path` AS t_component_path
-        FROM(
-        <include refid="selectMenuBatchByUserIdCommonSql"></include>
-        ) `one`
-        LEFT JOIN (
-        <include refid="selectMenuBatchByUserIdCommonSql"></include>
-        ) two ON two.parent_id = `one`.id
-        WHERE `one`.parent_id = '0'
-        ORDER BY `one`.order,`two`.order
-    </select>
-
-
-    <sql id="selectMenuBatchByUserIdCommonSql">
-        SELECT `t_view_rbac_resource`.`id`,
-               `t_view_rbac_resource`.name,
-               `t_view_rbac_resource`.`path`,
-               `t_view_rbac_resource`.`display`,
-               `t_view_rbac_resource`.`icon`,
-               `t_view_rbac_resource`.`component_path`,
-               `t_view_rbac_resource`.`parent_id`,
-               `t_view_rbac_resource`.`order`
+    <select id="selectMenuListByUserId" parameterType="java.lang.String" resultMap="BaseMap">
+        SELECT `t_view_rbac_resource`.*
         FROM `t_view_rbac_resource`
                  INNER JOIN `t_view_rbac_role_resource`
                             ON `t_view_rbac_role_resource`.`resource_id` = `t_view_rbac_resource`.`id`
@@ -59,8 +29,8 @@
                             ON `t_view_rbac_user_role`.`role_id` = `t_view_rbac_role_resource`.`role_id`
         WHERE `t_view_rbac_user_role`.`user_id` = #{userId}
           AND `t_view_rbac_resource`.`type` = 0
-        GROUP BY `t_view_rbac_resource`.`id`
-    </sql>
+        ORDER BY `t_view_rbac_resource`.`order`
+    </select>
 
     <sql id="OneToManySql">
         SELECT `one`.`id`                   AS o_id,
@@ -139,18 +109,17 @@
         </collection>
     </resultMap>
 
-    <resultMap id="selectMenuBatchByUserIdMap" type="java.util.Map">
-        <result property="name" column="o_name"/>
-        <result property="path" column="o_path"/>
-        <result property="display" column="o_display"/>
-        <result property="icon" column="o_icon"/>
-        <collection property="children" ofType="java.util.Map" javaType="java.util.List">
-            <result property="name" column="t_name"/>
-            <result property="path" column="t_path"/>
-            <result property="display" column="t_display"/>
-            <result property="icon" column="t_icon"/>
-            <result property="componentPath" column="t_component_path"/>
-        </collection>
+    <resultMap id="BaseMap" type="com.icloud.common.entitys.rbac.RbacResource">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="path" column="path"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="display" column="display"/>
+        <result property="order" column="order"/>
+        <result property="icon" column="icon"/>
+        <result property="componentPath" column="component_path"/>
+        <result property="optionValuesJson" column="option_values_json"/>
     </resultMap>
 
 </mapper>

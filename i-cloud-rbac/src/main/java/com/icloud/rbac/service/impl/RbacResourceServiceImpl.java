@@ -42,7 +42,6 @@ public class RbacResourceServiceImpl implements RbacResourceService {
         return this.mapper.updateById(resource) > 0;
     }
 
-
     @Override
     public List<Map<String, Object>> selectMenuOptions() {
         //查询菜单资源
@@ -56,11 +55,6 @@ public class RbacResourceServiceImpl implements RbacResourceService {
         superMenu.put("children", this.getChildrens("0", list));
         return Arrays.asList(superMenu);
     }
-
-//    @Override
-//    public List<Map<String, Object>> selectAllOptions() {
-//        return this.mapper.selectAllOptions();
-//    }
 
     @Override
     public List<RbacResource> selectAllOptions() {
@@ -82,8 +76,10 @@ public class RbacResourceServiceImpl implements RbacResourceService {
     }
 
     @Override
-    public List<Map<String, Object>> findMenuBatchByUserId(String userId) {
-        return this.mapper.selectMenuBatchByUserId(userId);
+    public List<RbacResource> findMenuListByUserId(String userId) {
+        List<RbacResource> list = this.mapper.selectMenuListByUserId(userId);
+        //将用户拥有菜单资源转成树形数据结构
+        return this.getChildrens("0", list);
     }
 
     /**

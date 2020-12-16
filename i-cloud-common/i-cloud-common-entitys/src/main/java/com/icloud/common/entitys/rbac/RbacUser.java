@@ -39,6 +39,6 @@ public class RbacUser implements Serializable {
     private String optionValuesJson;
 
     @TableField(exist = false)
-    private List<Map<String, Object>> menus;
+    private List<RbacResource> menus;
 
 }

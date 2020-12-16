@@ -5,6 +5,7 @@ import com.icloud.common.components.base.BaseController;
 import com.icloud.common.components.common.RedisComponent;
 import com.icloud.common.entitys.common.PageResult;
 import com.icloud.common.entitys.params.QueryPageParam;
+import com.icloud.common.entitys.rbac.RbacResource;
 import com.icloud.common.entitys.rbac.RbacUser;
 import com.icloud.common.utils.http.HttpResponse;
 import com.icloud.rbac.service.RbacResourceService;
@@ -130,7 +131,7 @@ public class RbacUserController extends BaseController {
         }
         user.setPassword("");
         //按照用户编号获取出用户存在的菜单列表
-        List<Map<String, Object>> menus = this.rbacResourceService.findMenuBatchByUserId(user.getId());
+        List<RbacResource> menus = this.rbacResourceService.findMenuListByUserId(user.getId());
         user.setMenus(menus);
         return HttpResponse.success(user);
     }
