@@ -1,39 +1,7 @@
-server:
-  port: 7004
 spring:
   application:
     name: i-cloud-gateway
   cloud:
     config:
-      uri: http://localhost:7005
-      profile: dev
-      label: master
-      name: eureka,redis
-zuul:
-  prefix: /api    #添加路由前缀
-  routes:
-    i-cloud-auth: /i-cloud-auth/**
-    i-cloud-rbac: /i-cloud-rbac/**
-  host:
-    max-per-route-connections: 60000
-    socket-timeout-millis: 10000
-    connect-timeout-millis: 10000
-  add-host-header: true
-  sensitive-headers:
-ribbon:
-  ConnectTimeout: 1000
-  ReadTimeout: 1000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 1
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS
-#TokenFilter白名单URL
-filter:
-  token:
-    white-uris: "/api/i-cloud-auth/**,/api/i-cloud-rbac/user/info,**option**,/*/**"
+      uri: http://localhost:7006
+      profile: @profiles.active@

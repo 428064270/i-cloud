@@ -2,7 +2,7 @@ server:
   port: 7001
 eureka:
   instance:
-    hostname: localhost
+    hostname: i-clod-register
   client:
     register-with-eureka: false
     fetch-registry: false

@@ -15,9 +15,8 @@
         <module>i-cloud-auth</module>
         <module>i-cloud-rbac</module>
         <module>i-cloud-config</module>
+        <module>i-cloud-config-git</module>
     </modules>
-
-    <profile>dev</profile>
 
     <properties>
         <spring.cloud-version>Hoxton.SR8</spring.cloud-version>
@@ -96,7 +95,37 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -148,6 +177,12 @@
                     <configuration>
                         <includeEmptyDirectories>true</includeEmptyDirectories>
                     </configuration>
+                </plugin>
+                <!--代码格式插件，默认使用spring 规则-->
+                <plugin>
+                    <groupId>io.spring.javaformat</groupId>
+                    <artifactId>spring-javaformat-maven-plugin</artifactId>
+                    <version>${spring.checkstyle.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

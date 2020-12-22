@@ -1,14 +1,7 @@
-server:
-  port: 7003
 spring:
   application:
     name: i-cloud-auth
   cloud:
     config:
-      uri: http://localhost:7005
-      profile: dev
-      label: master
-      name: eureka,db,redis
-ribbon:
-  ConnectTimeout: 1000
-  ReadTimeout: 1000
+      uri: http://localhost:7006
+      profile: @profiles.active@
