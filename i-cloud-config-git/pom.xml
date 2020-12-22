@@ -8,6 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>配置中心-基于GIT</description>
 
     <artifactId>i-cloud-config-git</artifactId>
 

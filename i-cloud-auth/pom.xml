@@ -8,6 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>认证中心</description>
 
     <groupId>com.icloud.auth</groupId>
     <artifactId>i-cloud-auth</artifactId>
