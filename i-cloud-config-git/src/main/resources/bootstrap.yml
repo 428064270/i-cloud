@@ -1,0 +1,18 @@
+server:
+  port: 7006
+spring:
+  application:
+    name: i-cloud-config-git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/428064270/i-cloud-config
+          search-paths: config-repo
+          default-label: main
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    prefer-ip-address: true
