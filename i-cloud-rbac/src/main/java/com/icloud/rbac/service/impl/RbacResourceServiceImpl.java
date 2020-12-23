@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.icloud.common.entitys.params.QueryPageParam;
 import com.icloud.common.entitys.rbac.RbacResource;
 import com.icloud.rbac.mapper.RbacResourceMapper;
+import com.icloud.rbac.mapper.RbacRoleResourceMapper;
 import com.icloud.rbac.service.RbacResourceService;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,11 @@ public class RbacResourceServiceImpl implements RbacResourceService {
 
     private final RbacResourceMapper mapper;
 
-    public RbacResourceServiceImpl(RbacResourceMapper mapper) {
+    private final RbacRoleResourceMapper roleResourceMapper;
+
+    public RbacResourceServiceImpl(RbacResourceMapper mapper, RbacRoleResourceMapper roleResourceMapper) {
         this.mapper = mapper;
+        this.roleResourceMapper = roleResourceMapper;
     }
 
     @Override
@@ -32,6 +36,12 @@ public class RbacResourceServiceImpl implements RbacResourceService {
 
     @Override
     public boolean deleteById(String id) {
+        //查询全部资源
+        List<RbacResource> list = this.mapper.selectList(new QueryWrapper<>());
+        //获取当前需要删除资源的子资源并挨个删除
+        List<RbacResource> children = this.getChildren(id, list);
+        //删除用户选中资源
+        this.delChildren(children);
         return this.mapper.deleteById(id) > 0;
     }
 
@@ -52,7 +62,7 @@ public class RbacResourceServiceImpl implements RbacResourceService {
         Map<String, Object> superMenu = new HashMap<>();
         superMenu.put("id", "0");
         superMenu.put("name", "顶级资源");
-        superMenu.put("children", this.getChildrens("0", list));
+        superMenu.put("children", this.getChildren("0", list));
         return Arrays.asList(superMenu);
     }
 
@@ -61,7 +71,7 @@ public class RbacResourceServiceImpl implements RbacResourceService {
         //查询全部资源
         List<RbacResource> resourceList = this.mapper.selectList(new QueryWrapper<>());
         //将资源转成树形数据结构
-        return this.getChildrens("0", resourceList);
+        return this.getChildren("0", resourceList);
     }
 
     @Override
@@ -79,7 +89,7 @@ public class RbacResourceServiceImpl implements RbacResourceService {
     public List<RbacResource> findMenuListByUserId(String userId) {
         List<RbacResource> list = this.mapper.selectMenuListByUserId(userId);
         //将用户拥有菜单资源转成树形数据结构
-        return this.getChildrens("0", list);
+        return this.getChildren("0", list);
     }
 
     /**
@@ -89,17 +99,35 @@ public class RbacResourceServiceImpl implements RbacResourceService {
      * @param list
      * @return
      */
-    public List<RbacResource> getChildrens(String parentId, List<RbacResource> list) {
-        List<RbacResource> childrens = new ArrayList<>();
+    public List<RbacResource> getChildren(String parentId, List<RbacResource> list) {
+        List<RbacResource> children = new ArrayList<>();
         for (RbacResource resource : list) {
             if (parentId.equals(resource.getParentId())) {
                 //递归查找当前节点的子节点
-                List<RbacResource> rChildrens = getChildrens(resource.getId(), list);
+                List<RbacResource> rChildrens = getChildren(resource.getId(), list);
                 resource.setChildren(rChildrens);
-                childrens.add(resource);
+                children.add(resource);
             }
         }
-        return childrens;
+        return children;
+    }
+
+    /**
+     * 删除子资源
+     *
+     * @param children
+     */
+    private void delChildren(List<RbacResource> children) {
+        for (RbacResource resource : children) {
+            if (resource.getChildren().size() > 0) {
+                //删除当前资源的子资源
+                this.delChildren(resource.getChildren());
+            }
+            //删除当前资源
+            this.mapper.deleteById(resource.getId());
+            //删除资源与角色关联信息
+            this.roleResourceMapper.deleteBatchByResourceId(resource.getId());
+        }
     }
 
 }

@@ -28,4 +28,12 @@ public interface RbacUserRoleMapper {
      */
     Integer deleteBatchByUserId(String userId);
 
+    /**
+     * 通过角色编号批量删除关联关系
+     *
+     * @param roleId
+     * @return
+     */
+    Integer deleteBatchByRoleId(String roleId);
+
 }

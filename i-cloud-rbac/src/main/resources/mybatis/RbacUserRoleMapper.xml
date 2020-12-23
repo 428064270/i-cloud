@@ -13,4 +13,8 @@
         DELETE FROM t_view_rbac_user_role WHERE user_id = #{userId}
     </delete>
 
+    <delete id="deleteBatchByRoleId" parameterType="java.lang.String">
+        DELETE FROM t_view_rbac_user_role WHERE role_id = #{roleId}
+    </delete>
+
 </mapper>

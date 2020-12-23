@@ -8,6 +8,7 @@ import com.icloud.common.entitys.params.QueryPageParam;
 import com.icloud.common.entitys.rbac.RbacRole;
 import com.icloud.rbac.mapper.RbacRoleMapper;
 import com.icloud.rbac.mapper.RbacRoleResourceMapper;
+import com.icloud.rbac.mapper.RbacUserRoleMapper;
 import com.icloud.rbac.service.RbacRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,12 @@ public class RbacRoleServiceImpl implements RbacRoleService {
 
     private final RbacRoleResourceMapper rbacRoleResourceMapper;
 
-    public RbacRoleServiceImpl(RbacRoleMapper mapper, RbacRoleResourceMapper rbacRoleResourceMapper) {
+    private final RbacUserRoleMapper rbacUserRoleMapper;
+
+    public RbacRoleServiceImpl(RbacRoleMapper mapper, RbacRoleResourceMapper rbacRoleResourceMapper, RbacUserRoleMapper rbacUserRoleMapper) {
         this.mapper = mapper;
         this.rbacRoleResourceMapper = rbacRoleResourceMapper;
+        this.rbacUserRoleMapper = rbacUserRoleMapper;
     }
 
     @Override
@@ -59,6 +63,8 @@ public class RbacRoleServiceImpl implements RbacRoleService {
             this.mapper.deleteById(id);
             //删除角色资源绑定信息
             this.rbacRoleResourceMapper.deleteBatchByRoleId(id);
+            //删除关联用户信息
+            this.rbacUserRoleMapper.deleteBatchByRoleId(id);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

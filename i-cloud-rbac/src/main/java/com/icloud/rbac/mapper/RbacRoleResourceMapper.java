@@ -28,4 +28,12 @@ public interface RbacRoleResourceMapper {
      */
     Integer deleteBatchByRoleId(String roleId);
 
+    /**
+     * 通过资源编号删除关联关系
+     *
+     * @param resourceId
+     * @return
+     */
+    Integer deleteBatchByResourceId(String resourceId);
+
 }
