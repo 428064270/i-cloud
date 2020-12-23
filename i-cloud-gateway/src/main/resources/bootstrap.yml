@@ -3,5 +3,5 @@ spring:
     name: i-cloud-gateway
   cloud:
     config:
-      uri: http://localhost:7006
+      uri: http://i-cloud-config:7002
       profile: @profiles.active@

@@ -2,7 +2,7 @@ server:
   port: 7001
 eureka:
   instance:
-    hostname: i-clod-register
+    hostname: i-cloud-register
   client:
     register-with-eureka: false
     fetch-registry: false
