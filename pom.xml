@@ -15,7 +15,6 @@
         <module>i-cloud-auth</module>
         <module>i-cloud-rbac</module>
         <module>i-cloud-config</module>
-        <module>i-cloud-config-git</module>
     </modules>
 
     <properties>
@@ -118,6 +117,7 @@
             </properties>
         </profile>
     </profiles>
+
 
     <build>
         <resources>

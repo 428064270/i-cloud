@@ -2,10 +2,14 @@ server:
   port: 7002
 spring:
   application:
-    name: i-cloud-config-git
+    name: i-cloud-config
+#  profiles:
+#    active: native 读取本地配置时使用
   cloud:
     config:
       server:
+#        native: 读取项目内配置文件
+#          search-locations: classpath:/configs
         git:
           uri: https://github.com/428064270/i-cloud-config
           search-paths: config-repo
